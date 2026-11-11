@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en" data-type="unified">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Technology — Thalamic</title>
+<meta name="description" content="Modern invasive BCIs stream raw neural data off the implant and process it outside the body. That architecture worked at a hundred channels. It breaks at ten thousand.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./site.css">
+<link rel="icon" href="./logo/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="./logo/apple-touch-icon.png">
+<script src="./image-slot.js"></script>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="shell shell--masthead masthead__inner">
+    <a class="wordmark" href="index.html"><img class="wordmark__lockup" src="./logo/thalamic-lockup-light-bg-web.svg" alt="Thalamic" width="693" height="190"></a>
+    <nav class="nav" id="nav">
+      <a href="index.html#about">About</a>
+      <a class="nav__current" href="technology.html">Technology</a>
+      <a href="team.html">Team</a>
+      <a href="index.html#products">Products</a>
+      <a href="index.html#markets">Markets</a>
+      <a href="index.html#partners">Partners</a>
+      <a href="careers.html">Careers</a>
+      <a class="nav__contact" href="#contact">Contact</a>
+    </nav>
+    <button class="burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="nav">
+      <span class="burger__bar"></span><span class="burger__bar"></span>
+    </button>
+  </div>
+</header>
+
+<main>
+
+  <section class="shell shell--subhero">
+    <div class="eyebrow eyebrow--accent" style="margin-bottom:28px">Technology</div>
+    <h1 class="display display--sub" style="max-width:14ch">Compute at the electrode<span class="stop">.</span></h1>
+    <p class="lede lede--sub">Modern invasive BCIs stream raw neural data off the implant and process it outside the body. That architecture worked at a hundred channels. It breaks at ten thousand. Thalamic moves the processing onto the implant itself.</p>
+  </section>
+
+  <section class="rule-top">
+    <div class="shell section__grid" data-reveal>
+      <div class="section__index">01 — The problem</div>
+      <div>
+        <h2 class="section-title title--tight">Channel counts are growing exponentially. Everything downstream is not.</h2>
+        <p class="prose">Every electrode adds another stream of wideband data. Moving it all off the implant costs bandwidth the link doesn't have and power the tissue can't absorb — the thermal budget of neural tissue is measured in single-digit milliwatts. The result: systems that record more than they can use, throttled at the interconnect.</p>
+
+        <!-- The design source (Technology.dc.html) is truncated mid-attribute at
+             the start of this grid; the four cells below complete it using only
+             figures already stated elsewhere in the design. -->
+        <div class="stats">
+          <div class="stat">
+            <div class="stat__value">10,000+</div>
+            <div class="stat__label">Channels on next-generation arrays</div>
+          </div>
+          <div class="stat">
+            <div class="stat__value">Gb/s</div>
+            <div class="stat__label">Raw wideband data at the electrode</div>
+          </div>
+          <div class="stat">
+            <div class="stat__value">single-digit mW</div>
+            <div class="stat__label">Thermal budget of neural tissue</div>
+          </div>
+          <div class="stat">
+            <div class="stat__value">10×–1000×</div>
+            <div class="stat__label">On-implant reduction, by output level</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="rule-top">
+    <div class="shell section__grid" data-reveal>
+      <div class="section__index">02 — The architecture</div>
+      <div>
+        <h2 class="section-title title--tight">Every stage that can run on the implant, runs on the implant.</h2>
+        <p class="prose">The T-1 takes the wideband signal where it is generated and reduces it in place. Filtering, spike detection, feature extraction and compression run as a fixed-function chain; decoding runs on top of it. What crosses the skull is never the raw waveform.</p>
+        <p class="prose">How far down that chain a system stops is a design decision, and not one we think should be fixed in silicon. The same datapath can hand back detected events, a compressed signal, or a decoded estimate — the right level depends on the application, the link budget and how much of the task belongs on the implant at all.</p>
+
+        <div class="chain">
+          <div class="chain__stage">
+            <div class="chain__step">IN</div>
+            <div class="chain__name">Wideband</div>
+            <div class="chain__note">continuous signal from the array</div>
+          </div>
+          <div class="chain__stage chain__stage--onchip">
+            <div class="chain__step">ON CHIP /01</div>
+            <div class="chain__name">Filter · detect</div>
+            <div class="chain__note">threshold crossings become events</div>
+          </div>
+          <div class="chain__stage chain__stage--onchip">
+            <div class="chain__step">ON CHIP /02</div>
+            <div class="chain__name">Feature extract</div>
+            <div class="chain__note">per-event descriptors, not waveforms</div>
+          </div>
+          <div class="chain__stage chain__stage--onchip">
+            <div class="chain__step">ON CHIP /03</div>
+            <div class="chain__name">Compress</div>
+            <div class="chain__note">event coding across channels</div>
+          </div>
+          <div class="chain__stage chain__stage--onchip">
+            <div class="chain__step">ON CHIP /04</div>
+            <div class="chain__name">Decode</div>
+            <div class="chain__note">optional, when the task allows</div>
+          </div>
+          <div class="chain__stage">
+            <div class="chain__step">OUT</div>
+            <div class="chain__name">Telemetry</div>
+            <div class="chain__note">features, signal or intent</div>
+          </div>
+        </div>
+        <div class="fig-caption" style="margin-top:10px">FIG. 03 — THE SIGNAL CHAIN, AND WHAT CROSSES THE SKULL</div>
+
+        <div class="figure">
+          <image-slot id="tech-floorplan" shape="rect" placeholder="floorplan / block diagram — drop image"></image-slot>
+          <div class="fig-caption">FIG. 04 — T-1 FLOORPLAN, ENGINEERING RENDER (PLACEHOLDER)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="rule-top">
+    <div class="shell section__grid" data-reveal>
+      <div class="section__index">03 — Power</div>
+      <div>
+        <h2 class="section-title title--tighter">Every microwatt becomes heat in tissue.</h2>
+        <p class="prose">Power is not a performance metric here, it is a safety constraint: the implant shares its thermal budget with the cortex around it. That rules out running a general-purpose processor at the electrode, and it rules out moving the raw signal out to one.</p>
+        <p class="prose">The architecture is event-driven end to end. Between spikes there is nothing to compute, and the chain spends nothing computing it — energy is drawn when neurons fire, in proportion to how many fire. Activity, not channel count, sets the power draw.</p>
+
+        <div class="spec">
+          <div class="spec__head">
+            <div class="spec__name">Design envelope</div>
+            <div class="spec__status">● Targets, pre-silicon</div>
+          </div>
+          <div class="spec__rows">
+            <div class="spec__row"><span class="spec__key">Power class</span><span>mW-class, implant-safe</span></div>
+            <div class="spec__row"><span class="spec__key">Scaling</span><span>with activity, not channel count</span></div>
+            <div class="spec__row"><span class="spec__key">Datapath</span><span>fixed-function, event-driven</span></div>
+            <div class="spec__row"><span class="spec__key">Off-implant link</span><span>kbit/s-class telemetry</span></div>
+          </div>
+        </div>
+        <p class="spec__note">Figures on this page are design targets for a pre-silicon architecture, not measured results.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="rule-top">
+    <div class="shell section__grid" data-reveal>
+      <div class="section__index">04 — Scaling</div>
+      <div>
+        <h2 class="section-title title--tighter">A processing unit per module, not per system.</h2>
+        <p class="prose">The T-1 is designed as a tile. One die serves a module of channels; a system is built by placing as many as the array needs, each reducing its own share of the signal locally. Channel count grows by adding dies, so the interconnect off the implant does not have to grow with it.</p>
+        <div class="rows" style="margin-top:36px">
+          <div class="row">
+            <div class="row__name">Today's arrays</div>
+            <p>Hundreds to low thousands of channels, served by a single processing tile.</p>
+            <div class="row__meta">1 die</div>
+          </div>
+          <div class="row">
+            <div class="row__name">Next-generation arrays</div>
+            <p>Ten thousand channels and above — tiles placed per module, telemetry unchanged.</p>
+            <div class="row__meta">N dies</div>
+          </div>
+          <div class="row">
+            <div class="row__name">100k-channel systems</div>
+            <p>The regime the architecture is built for: reduction stays local, and only the reduced output is aggregated.</p>
+            <div class="row__meta">Modular</div>
+          </div>
+        </div>
+        <a class="link-rule section__cta" href="mailto:partnerships@thalamic.io">Request detailed specifications&nbsp;→</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer id="contact" class="contact">
+  <div class="shell shell--contact">
+    <div class="eyebrow">Contact</div>
+    <div class="contact__display">Let's talk<span class="stop">.</span></div>
+    <a class="contact__mail" href="mailto:hello@thalamic.io">hello@thalamic.io</a>
+    <div class="colophon">
+      <div class="colophon__brand"><img class="colophon__mark" src="./logo/thalamic-mark-dark-bg.svg" alt="" width="64" height="64"><span>© 2026 Thalamic — all rights reserved</span></div>
+      <div class="colophon__links">
+        <a href="index.html">Home</a>
+        <a href="team.html">Team</a>
+        <a href="careers.html">Careers</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="./site.js"></script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="6 6 52 52" fill="none">
+  <!-- Derived from thalamic-mark-*-bg.svg: same geometry, cropped to the tick
+       bounds and with heavier strokes so the mark survives a 16px tab. The
+       trace flips with the browser chrome's colour scheme. -->
+  <style>
+    .trace{stroke:#161826}
+    .frame{stroke:#2b4bad}
+    @media (prefers-color-scheme:dark){ .trace{stroke:#e9e9ed} .frame{stroke:#6f94ee} }
+  </style>
+  <g class="frame" stroke="#2b4bad" stroke-width="2.2" stroke-linecap="round">
+    <rect x="15" y="15" width="34" height="34" rx="7"></rect>
+    <path d="M9 24h6M9 32h6M9 40h6M49 24h6M49 32h6M49 40h6M24 9v6M32 9v6M40 9v6M24 49v6M32 49v6M40 49v6"></path>
+  </g>
+  <polyline class="trace" points="21,33 26,33 29,23 33,43 36,27 38,33 43,33" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"></polyline>
+</svg>

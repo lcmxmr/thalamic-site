@@ -1,0 +1,469 @@
+/* ==========================================================================
+   Thalamic — shared stylesheet
+   Ported from the Claude Design project (3d46b62b). Every colour, size and
+   clamp below comes from the design source; see FIGURES note in README.
+   ========================================================================== */
+
+/* ---------------------------------------------------------------- tokens */
+:root{
+  --paper:#F7F7F4;
+  --panel:#FFFFFF;
+  --ink:#1C1C18;
+  --body:#4C4B45;
+  --muted:#6E6D66;
+  --faint:#9A988F;
+  --rule:#E4E3DC;
+  --rule-soft:#EFEEE8;
+  --rule-inline:#C9C8C0;
+  --accent:oklch(0.45 0.16 266);
+  --accent-lift:oklch(0.68 0.14 266);
+  --accent-wash:oklch(0.9 0.05 266);
+  --dark-text:#F7F7F4;
+  --dark-muted:#8B8A82;
+  --dark-rule:#33322E;
+  --dark-line:#4C4B45;
+  --serif:'Instrument Serif',Georgia,serif;
+  --sans:'Instrument Sans',system-ui,-apple-system,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+
+  /* Display tuning travels with the face — a 92px serif at 400/-0.01em is
+     right, the same size in Inter needs weight and much tighter tracking. */
+  --dw:400;        /* display + title weight  */
+  --dt:-0.01em;    /* display tracking        */
+  --dl:1.02;       /* display line-height     */
+  --tt:0;          /* title tracking          */
+}
+
+/* ---------------------------------------------------------- type settings */
+/* The brand lockup sets "thalamic." in Inter Medium and is delivered, not
+   editable — so where the page and the logo disagree, the page moves. Chosen
+   with ?type=; see README.
+
+   unified   (default) Inter throughout, matching the wordmark exactly.
+   editorial Inter for everything except the display face, which stays
+             Instrument Serif — two voices instead of three.
+   original  the design project as delivered: Instrument Serif + Instrument Sans. */
+html[data-type="unified"]{
+  --serif:'Inter',system-ui,-apple-system,sans-serif;
+  --sans:'Inter',system-ui,-apple-system,sans-serif;
+  --dw:500;
+  --dt:-0.035em;
+  --dl:1.06;
+  --tt:-0.022em;
+}
+html[data-type="editorial"]{
+  --sans:'Inter',system-ui,-apple-system,sans-serif;
+}
+/* Instrument Serif is a display serif with a small x-height; Inter Medium at
+   the same nominal size reads ~20% larger and sets ~20% wider, which pushed the
+   headline into the signal field. Step the display sizes down to match the
+   serif's optical size and measure. */
+html[data-type="unified"] .display{font-size:clamp(46px,6.2vw,78px)}
+html[data-type="unified"] .display--sub{font-size:clamp(42px,5.4vw,70px)}
+html[data-type="unified"] .contact__display{font-size:clamp(38px,5.2vw,64px)}
+
+/* ----------------------------------------------------------------- base */
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  -webkit-font-smoothing:antialiased;
+}
+a{color:var(--ink);text-decoration:none;transition:color .2s ease}
+a:hover{color:var(--accent)}
+::selection{background:var(--accent-wash)}
+h1,h2,h3,p{margin:0}
+
+.shell{max-width:1120px;margin:0 auto;padding:96px 32px}
+.shell--masthead{padding:18px 32px}
+.shell--hero{padding:120px 32px 72px}
+.shell--subhero{padding:110px 32px 80px}
+.shell--pipeline{padding:0 32px 96px}
+.shell--contact{padding:110px 32px 48px}
+
+.rule-top{border-top:1px solid var(--rule)}
+
+/* utility type */
+.eyebrow{
+  font-family:var(--mono);font-size:11px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--muted);
+}
+.eyebrow--accent{color:var(--accent)}
+.display{
+  font-family:var(--serif);font-weight:var(--dw);
+  font-size:clamp(52px,7.2vw,92px);line-height:var(--dl);letter-spacing:var(--dt);
+}
+.display--sub{font-size:clamp(48px,6.4vw,84px);line-height:1.03}
+.section-title{
+  font-family:var(--serif);font-weight:var(--dw);
+  font-size:clamp(30px,3.4vw,44px);line-height:1.15;letter-spacing:var(--tt);
+}
+.stop{color:var(--accent)}
+.fig-caption{
+  font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--faint);
+}
+.link-rule{
+  display:inline-block;font-size:14px;font-weight:500;
+  border-bottom:1px solid var(--ink);padding-bottom:3px;
+}
+.link-soft{
+  display:inline-block;font-size:14px;font-weight:500;color:var(--muted);
+  border-bottom:1px solid transparent;padding-bottom:3px;
+}
+.link-inline{border-bottom:1px solid var(--rule-inline)}
+
+/* ------------------------------------------------------------- masthead */
+.masthead{
+  position:sticky;top:0;z-index:50;
+  background:rgba(247,247,244,.88);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--rule);
+}
+/* centred, not baseline: the wordmark is now an image and has no text baseline
+   to hang the nav from */
+.masthead__inner{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:24px;flex-wrap:wrap;
+}
+/* The lockup is loaded from logo/ rather than inlined, so the brand SVG stays
+   the one source of truth: replace the file, every page follows. -web is the
+   outlined, ink-trimmed build — see logo/make-outlined-lockup.py. */
+.wordmark{display:flex;align-items:center;transition:opacity .2s ease}
+.wordmark:hover{opacity:.7}
+.wordmark__lockup{display:block;height:42px;width:auto}
+.nav{display:flex;gap:22px;flex-wrap:wrap;font-size:13px;letter-spacing:.02em}
+.nav__contact{color:var(--accent)}
+.nav__current{border-bottom:1px solid var(--ink);padding-bottom:2px}
+
+/* ------------------------------------------------------------- menu */
+/* Eight destinations set on one line need ~780px next to the lockup, so below
+   that the masthead would run to two rows — and since it is sticky, those two
+   rows would cost vertical space on every screen of every page, not just the
+   hero. Under 900px the nav becomes a panel behind a burger instead and the
+   bar stays one line throughout. The same <nav> is reused in both layouts, so
+   there is only ever one copy of the links per page. */
+.burger{
+  display:none;
+  width:40px;height:40px;margin-right:-9px;padding:0;
+  background:none;border:0;cursor:pointer;color:var(--ink);
+  position:relative;
+}
+.burger__bar{
+  position:absolute;left:9px;width:22px;height:1px;background:currentColor;
+  transition:transform .28s cubic-bezier(.2,.65,.25,1),opacity .18s ease;
+}
+.burger__bar:nth-child(1){top:17px}
+.burger__bar:nth-child(2){top:23px}
+/* the two bars fold into the close cross rather than being swapped for one */
+html[data-menu="open"] .burger__bar:nth-child(1){transform:translateY(3px) rotate(45deg)}
+html[data-menu="open"] .burger__bar:nth-child(2){transform:translateY(-3px) rotate(-45deg)}
+
+/* Everything below is gated on [data-menu], which site.js sets on load: with
+   scripting off nothing can open the panel, so the nav must stay as it is —
+   two wrapped rows — rather than becoming unreachable behind a dead button. */
+@media (max-width:900px){
+  html[data-menu] .burger{display:block;flex:none}
+  html[data-menu="open"]{overflow:hidden}
+  html[data-menu] .nav{
+    /* Anchored to the masthead, not the viewport: .masthead carries a
+       backdrop-filter, which makes it the containing block for fixed children
+       too — so `fixed` would resolve against the 79px bar and collapse. Hanging
+       it off the bar's bottom edge is the same result, honestly stated. */
+    position:absolute;left:0;right:0;
+    /* Both from the same measured bar, so they can't disagree: `top:100%` and a
+       vh-derived height resolve against different boxes (padding vs border) and
+       leave a seam. --panel is the exact viewport remainder under the bar,
+       which also absorbs the mobile browser chrome that dvh only approximates. */
+    top:var(--bar,79px);
+    height:var(--panel,calc(100dvh - 79px));
+    flex-direction:column;flex-wrap:nowrap;gap:0;
+    background:var(--paper);
+    padding:8px 20px calc(24px + env(safe-area-inset-bottom));
+    overflow-y:auto;
+    font-size:19px;letter-spacing:-.01em;
+    /* closed state: still in the tree for the toggle to animate, but taken out
+       of the tab order and off the a11y tree by visibility */
+    visibility:hidden;opacity:0;transform:translateY(-6px);
+    transition:opacity .22s ease,transform .28s cubic-bezier(.2,.65,.25,1),visibility 0s .28s;
+  }
+  html[data-menu] .nav a{padding:15px 0;border-bottom:1px solid var(--rule-soft)}
+  html[data-menu] .nav a:last-child{border-bottom:0}
+  html[data-menu] .nav__current{border-bottom:1px solid var(--rule-soft);color:var(--muted)}
+  html[data-menu="open"] .nav{
+    visibility:visible;opacity:1;transform:none;
+    transition:opacity .22s ease,transform .28s cubic-bezier(.2,.65,.25,1);
+  }
+}
+@media (max-width:900px) and (prefers-reduced-motion:reduce){
+  html[data-menu] .nav,.burger__bar{transition:none}
+}
+
+/* ----------------------------------------------------------------- hero */
+/* The signal field is full-bleed behind the hero band, but masked so it only
+   emerges to the right of the type — the text always sits on clean paper. */
+.hero-band{position:relative;overflow:hidden}
+.hero-band > .shell{position:relative;z-index:1}
+.hero-signal{
+  position:absolute;inset:0;width:100%;height:100%;
+  z-index:0;pointer-events:none;
+  opacity:0;transition:opacity 1.4s ease .2s;
+  -webkit-mask-image:linear-gradient(90deg,transparent 50%,#000 68%,#000 93%,transparent 100%);
+          mask-image:linear-gradient(90deg,transparent 50%,#000 68%,#000 93%,transparent 100%);
+}
+.hero-signal[data-ready]{opacity:1}
+/* raster needs room on both sides of its gate — continuous stretch before it,
+   event ticks after — so it starts a little further left than the others */
+html[data-hero="raster"] .hero-signal{
+  -webkit-mask-image:linear-gradient(90deg,transparent 46%,#000 62%,#000 93%,transparent 100%);
+          mask-image:linear-gradient(90deg,transparent 46%,#000 62%,#000 93%,transparent 100%);
+}
+/* Inter still sets a longer line than the serif even after the size step-down,
+   so the field starts further right when the page is set in it */
+html[data-type="unified"][data-hero="raster"] .hero-signal{
+  -webkit-mask-image:linear-gradient(90deg,transparent 52%,#000 68%,#000 93%,transparent 100%);
+          mask-image:linear-gradient(90deg,transparent 52%,#000 68%,#000 93%,transparent 100%);
+}
+/* the routing plate reads as structure, so it can sit a little wider */
+html[data-hero="lattice"] .hero-signal{
+  -webkit-mask-image:linear-gradient(90deg,transparent 46%,#000 64%,#000 94%,transparent 100%);
+          mask-image:linear-gradient(90deg,transparent 46%,#000 64%,#000 94%,transparent 100%);
+}
+/* Narrow screens have no space beside the type, so there is nothing for a
+   sideways mask to reveal into — the field runs full-bleed behind the hero
+   instead and is dropped back far enough that the type still reads as sitting
+   on clean paper. The mask turns vertical: it only softens the two edges, so
+   the field doesn't butt into the header rule above or the spec cards below.
+   The raster's own geometry adapts to match (see hero-signal.js → narrow). */
+@media (max-width:900px){
+  html[data-type][data-hero] .hero-signal{
+    -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 13%,#000 87%,transparent 100%);
+            mask-image:linear-gradient(180deg,transparent 0,#000 13%,#000 87%,transparent 100%);
+  }
+  html[data-type][data-hero] .hero-signal[data-ready]{opacity:.36}
+}
+
+.tone{display:none}
+html[data-tone="quiet"] .tone--quiet,
+html[data-tone="visionary"] .tone--visionary,
+html[data-tone="human"] .tone--human{display:block}
+
+.hero__headline{margin:0;max-width:15ch}
+.tone--human .hero__headline{max-width:16ch}
+.lede{font-size:19px;line-height:1.6;color:var(--body);max-width:52ch;margin:32px 0 0}
+.lede--sub{font-size:18px;line-height:1.65;max-width:56ch}
+.hero__actions{display:flex;gap:28px;margin-top:40px;flex-wrap:wrap}
+
+/* ------------------------------------------------- fig. 01 — data path */
+html[data-pipeline="off"] .pipeline-block{display:none}
+.pipeline{
+  display:flex;align-items:stretch;flex-wrap:wrap;
+  border:1px solid var(--rule);
+  font-family:var(--mono);font-size:12px;line-height:1.7;
+}
+.pipeline__cell{flex:1;min-width:220px;padding:24px 28px;border-left:1px solid var(--rule)}
+.pipeline__cell:first-child{border-left:0}
+.pipeline__cell--npu{background:var(--panel)}
+.pipeline__label{
+  font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:10px;
+}
+.pipeline__cell--npu .pipeline__label{color:var(--accent)}
+.pipeline-block .fig-caption{margin-top:10px}
+
+/* -------------------------------------------------------- section grid */
+.section__grid{
+  display:grid;grid-template-columns:minmax(140px,1fr) minmax(0,3fr);gap:40px;
+}
+.section__grid > *{min-width:0}
+.section__index{
+  font-family:var(--mono);font-size:11px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--accent);
+}
+.prose{font-size:16px;line-height:1.7;color:var(--body);max-width:60ch;margin:28px 0 0}
+.prose + .prose{margin-top:16px}
+.title--tight{max-width:24ch}
+.title--tighter{max-width:22ch}
+.title--gap{margin-bottom:12px}
+
+/* ------------------------------------------------------- pillar blocks */
+.pillars{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:36px;margin-top:40px;
+}
+.pillar__num{font-family:var(--mono);font-size:11px;color:var(--faint);margin-bottom:12px}
+.pillar__name{font-weight:600;font-size:15px;margin-bottom:8px}
+.pillar p{font-size:14px;line-height:1.65;color:var(--body)}
+
+/* minmax(0,1fr) + aspect-ratio:auto keep <image-slot> (whose :host defaults to
+   width:100%/aspect-ratio:3/2) from forcing the column wider than the viewport. */
+.figure{margin-top:44px;display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+.figure image-slot{width:100%;height:380px;aspect-ratio:auto}
+.figure--portrait image-slot{height:260px}
+.section__cta{margin-top:36px}
+
+/* ------------------------------------------------------------ stat grid */
+/* 1px gaps over a --rule background draw the hairlines between cells.
+   Column counts are explicit rather than auto-fit: these grids hold a fixed
+   number of cells, and auto-fit strands the last one in a half-empty row. */
+.stats{
+  display:grid;grid-template-columns:minmax(0,1fr);
+  gap:1px;background:var(--rule);border:1px solid var(--rule);
+  margin-top:40px;font-family:var(--mono);
+}
+.stat{background:var(--paper);padding:24px 26px}
+.stat__value{font-size:22px;letter-spacing:-.01em}
+.stat__label{
+  font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);margin-top:10px;line-height:1.5;
+}
+
+/* ---------------------------------------------------------- signal chain */
+.chain{
+  display:grid;grid-template-columns:minmax(0,1fr);
+  gap:1px;background:var(--rule);border:1px solid var(--rule);
+  margin-top:40px;font-family:var(--mono);
+}
+.chain__stage{background:var(--paper);padding:22px 20px}
+.chain__stage--onchip{background:var(--panel)}
+.chain__step{font-size:10px;letter-spacing:.12em;color:var(--faint)}
+.chain__name{font-size:13px;margin:10px 0 8px}
+.chain__note{font-size:11px;line-height:1.6;color:var(--muted)}
+.chain__stage--onchip .chain__step{color:var(--accent)}
+
+/* ------------------------------------------------------- spec / product */
+.spec{margin-top:36px;border:1px solid var(--rule);background:var(--panel)}
+.spec__head{
+  padding:28px 32px;border-bottom:1px solid var(--rule);
+  display:flex;justify-content:space-between;align-items:baseline;
+  gap:16px;flex-wrap:wrap;
+}
+.spec__name{font-family:var(--serif);font-weight:var(--dw);font-size:26px;letter-spacing:var(--tt)}
+.spec__status{
+  font-family:var(--mono);font-size:11px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--accent);
+}
+.spec__rows{font-family:var(--mono);font-size:12.5px;line-height:1.6}
+.spec__row{
+  display:flex;justify-content:space-between;gap:24px;
+  padding:14px 32px;border-bottom:1px solid var(--rule-soft);
+}
+.spec__row:last-child{border-bottom:0}
+.spec__key{color:var(--muted)}
+.spec__note{font-size:14px;line-height:1.65;color:var(--muted);margin:20px 0 0;max-width:56ch}
+
+/* --------------------------------------------------------- listing rows */
+.rows{display:flex;flex-direction:column}
+.row{
+  display:grid;grid-template-columns:minmax(200px,1fr) minmax(0,2fr);
+  gap:24px;padding:28px 0;border-bottom:1px solid var(--rule);
+}
+.row:last-child{border-bottom:0}
+.row__name{font-weight:600;font-size:16px}
+.row p{font-size:14px;line-height:1.65;color:var(--body)}
+.row__meta{
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--muted);margin-top:8px;
+}
+
+/* ---------------------------------------------------------------- tags */
+.tags{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px;font-family:var(--mono);font-size:12px}
+.tag{border:1px solid var(--rule);padding:10px 18px}
+
+/* ------------------------------------------------------- founder cards */
+/* auto-fill rather than auto-fit: cards keep the same size whether there are
+   two founders or five, and a part-filled last row simply ends early. */
+.founders{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:34px 24px;margin-top:40px;
+}
+.founder{min-width:0}
+/* height:auto is load-bearing — the img's height="640" attribute is a
+   presentational hint that otherwise wins over aspect-ratio and stretches the
+   card to 640px tall. */
+.founder__photo{
+  display:block;width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;
+  background:var(--rule-soft);
+}
+.founder__role{
+  font-family:var(--mono);font-size:10px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--accent);margin-top:16px;
+}
+.founder__name{
+  font-family:var(--serif);font-weight:var(--dw);font-size:19px;
+  letter-spacing:var(--tt);line-height:1.25;margin-top:8px;
+}
+.founder__affil{font-size:12.5px;line-height:1.5;color:var(--muted);margin-top:6px}
+.founder__bio{font-size:13px;line-height:1.6;color:var(--body);margin-top:10px}
+.founder__link{
+  display:inline-block;margin-top:10px;
+  font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--muted);
+  border-bottom:1px solid var(--rule-inline);padding-bottom:2px;
+}
+.founder__link:hover{color:var(--accent)}
+
+/* Unfilled seats. Same box as a real card so the row keeps its rhythm, but
+   held back to the muted end of the palette so they read as pending rather
+   than as people. height:auto overrides <image-slot>'s own :host sizing. */
+.founder__slot{display:block;width:100%;height:auto;aspect-ratio:1/1;opacity:.55}
+.founder--slot .founder__role{color:var(--faint)}
+.founder--slot .founder__name,
+.founder--slot .founder__affil,
+.founder--slot .founder__bio{color:var(--faint)}
+
+/* -------------------------------------------------------- 06 — contact */
+.contact{border-top:1px solid var(--ink);background:var(--ink);color:var(--dark-text)}
+.contact .eyebrow{color:var(--dark-muted);margin-bottom:24px}
+.contact__display{font-family:var(--serif);font-weight:var(--dw);font-size:clamp(44px,6vw,76px);line-height:1.05;letter-spacing:var(--dt)}
+.contact__display .stop{color:var(--accent-lift)}
+.contact__mail{
+  display:inline-block;margin-top:28px;font-family:var(--mono);font-size:16px;
+  color:var(--dark-text);border-bottom:1px solid var(--dark-line);padding-bottom:4px;
+}
+.contact__mail:hover{color:var(--accent-lift)}
+.colophon{
+  display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;
+  margin-top:96px;padding-top:24px;border-top:1px solid var(--dark-rule);
+  font-size:12px;color:var(--dark-muted);
+}
+/* 30px is the floor for the mark on-page: the frame ticks are 1.6-unit strokes
+   on a 64 viewBox, so below ~28px they collapse into a speck. Small uses go
+   through logo/favicon.svg, which carries heavier strokes for that reason. */
+.colophon__brand{display:flex;align-items:center;gap:10px}
+.colophon__mark{width:30px;height:30px;flex:none}
+.colophon a{color:var(--dark-muted)}
+.colophon a:hover{color:var(--dark-text)}
+.colophon__links{display:flex;gap:20px;flex-wrap:wrap}
+
+/* ------------------------------------------------------------- narrow */
+@media (max-width:760px){
+  .shell{padding-left:20px;padding-right:20px}
+  .shell--hero{padding-top:88px}
+  .shell--subhero{padding-top:80px}
+  .section__grid{grid-template-columns:1fr;gap:20px}
+  .row{grid-template-columns:1fr;gap:8px}
+  .spec__row{padding-left:20px;padding-right:20px}
+  .spec__head{padding-left:20px;padding-right:20px}
+  .figure image-slot{height:260px}
+}
+
+/* Fixed-count grids step up in factors of their item count (4 stats, 6 chain
+   stages) so no row is ever left part-empty. */
+@media (max-width:560px){
+  .founders{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (min-width:560px){
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .chain{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (min-width:900px){
+  .stats{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .chain{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .hero-signal{transition:none}
+}
